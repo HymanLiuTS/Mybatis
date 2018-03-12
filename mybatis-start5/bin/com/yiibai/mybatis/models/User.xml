@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yiibai.userMaper">
+	<!-- User 级联文章查询 方法配置 (一个用户对多个文章) -->
+
+	<resultMap type="Post" id="resultPostsMap">
+		<result property="id" column="post_id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<association property="user" javaType="MyUser">
+			<id property="id" column="user_id" />
+			<result property="username" column="username" />
+			<result property="mobile" column="mobile" />
+		</association>
+	</resultMap>
+
+	<select id="getPosts" resultMap="resultPostsMap" parameterType="int">
+		SELECT u.*,p.*
+		FROM myuser u, post p
+		WHERE u.id=p.user_id AND
+		post_id=#{post_id}
+	</select>
+
+</mapper>
