@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yiibai.mybatis.dao.IMyUser">
+
+    <select id="getUser" parameterType="int"
+        resultType="com.yiibai.mybatis.models.MyUser">
+        SELECT *
+        FROM MYUSER
+        WHERE id = #{userId}
+    </select>
+
+
+    <insert id="insertUser" parameterType="MyUser">
+        INSERT INTO MYUSER(name,
+        dept, website,phone)
+        VALUES(#{name}, #{dept}, #{website}, #{phone})
+    </insert>
+
+    <select id="getUserList" resultType="com.yiibai.mybatis.models.MyUser">
+        SELECT * FROM MYUSER
+    </select>
+
+    <update id="updateUser" parameterType="MyUser">
+        UPDATE MYUSER
+        SET
+        name=
+        #{name},
+        dept = #{dept},
+        website = #{website},
+        phone = #{phone}
+        WHERE
+        id =
+        #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM MYUSER WHERE id = #{id}
+    </delete>
+
+</mapper>
