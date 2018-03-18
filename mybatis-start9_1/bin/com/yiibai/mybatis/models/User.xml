@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yiibai.mybatis.models.IUser">
+	<select id="getUserByID" parameterType="int"
+		resultType="com.yiibai.mybatis.models.MyUser">
+		select * from myuser where username like 'yiibai' <!-- if 标签外的sql语句是正常的sql语句可以含有传入参数外的字段 -->
+		<if test="id!=null">
+			and id = #{id} <!-- if标签里面的字段必须是参数id所代表的字段 -->
+		</if>
+	</select>
+	<select id="getUserByIDName" parameterType="User"
+		resultType="com.yiibai.mybatis.models.MyUser">
+		select * from myuser 
+		<where>
+			<if test="id!=null">  <!-- where 标签代表if条件语句至少有一个成立才会保留where关键字 -->
+				and id = #{id,jdbcType=INTEGER} 
+			</if>
+			<if test="username!=null">
+				and username = #{username,jdbcType=VARCHAR} <!-- if标签里面的字段必须是参数id所代表的字段 -->
+			</if>
+		</where>
+	</select>
+	<select id="getUserByChose" parameterType="User"
+		resultType="com.yiibai.mybatis.models.MyUser">
+		select * from myuser where 1=1 <!-- if 标签外的sql语句是正常的sql语句可以含有传入参数外的字段 -->
+		<choose>
+			<when test="username!=null">
+				and username=#{username,jdbcType=VARCHAR}
+			</when>
+			<otherwise>     <!--otherwise标签没有test -->
+				and id=#{id,jdbcType=INTEGER}
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getUserByTrim" parameterType="User"
+		resultType="com.yiibai.mybatis.models.MyUser">
+		select * from myuser
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="id!=null">id=#{id,jdbcType=INTEGER} </if>
+			<if test="username!=null"> and  username=#{username,jdbcType=VARCHAR}</if>
+		</trim>
+	</select>
+	<update id="updateUser">
+		update myuser
+		<set>
+			<if test="username!=null"> username=#{username,jdbcType=VARCHAR},</if>
+			<if test="mobile!=null"> mobile=#{mobile}</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<update id="updateUser2">
+		update myuser 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username!=null"> username=#{username,jdbcType=VARCHAR},</if>
+			<if test="mobile!=null"> mobile=#{mobile}</if>
+		</trim>
+		where id=#{id}
+	</update>
+</mapper>
