@@ -4,6 +4,6 @@
 
 <mapper namespace="com.yiibai.mybatis.models.IUser">
 	<select id="GetUserByID" parameterType="int" resultType="com.yiibai.mybatis.models.MyUser">
-		select * from myuser where id = #{id}
+	   select * from myuser where id = #{id}
     </select>
 </mapper>
